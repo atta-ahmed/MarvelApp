@@ -1,0 +1,37 @@
+//
+//  CharListPresenter.swift
+//  MarvelAPP
+//
+//  Created by Atta Amed on 6/12/19.
+//  Copyright © 2019 Atta Amed. All rights reserved.
+//
+
+import Foundation
+
+class CharListPresenter {
+    
+    weak var delegate: CharListPresenterDelegate!
+    var charResponce: CharResponce?
+    
+
+    
+    func fetchCharacters(limit: Int, count: Int, offset: Int) {
+        let paramter = ["apikey": MarvelAPIConfig.apikey,
+                        "ts": MarvelAPIConfig.ts,
+                        "hash": MarvelAPIConfig.hash,
+                        "limit": limit,
+                        "offset": offset] as [String : Any]
+        ApiHandler.request(url: "characters", success: self.successFetchCharacters, method: .get, paramter: paramter)
+    }
+    func successFetchCharacters(res: CharListResponce){
+        charResponce = res.data
+        delegate.onSuccessFetchCharacters(charResponce: charResponce)
+    }
+    
+    
+    
+}
+
+protocol CharListPresenterDelegate: class {
+    func onSuccessFetchCharacters(charResponce: CharResponce?)
+}
