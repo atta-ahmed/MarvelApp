@@ -10,17 +10,21 @@ import UIKit
 
 class CharSearchTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var charImage: UIImageView!
+    @IBOutlet weak var charNameLabel: UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
-    @IBOutlet weak var charImage: UIImageView!
-    @IBOutlet weak var charNameLabel: UILabel!
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+ 
+    func configCell(character: Character){
+        let imageFullPath = character.thumImage?.fullPath()
+        charImage.downloadImageByKF(imagePath: imageFullPath)
+        charImage.contentMode = .scaleAspectFill
+        // charImag.downloadImageFrom(link: imageFullPath ?? "", contentMode: .scaleAspectFill)
+        charNameLabel.text = character.name
+        
     }
-    
 }

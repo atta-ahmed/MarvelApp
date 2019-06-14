@@ -21,19 +21,9 @@ class CharListTableViewCell: UITableViewCell {
 
     func configCell(character: Character){
         let imageFullPath = character.thumImage?.fullPath()
-        
-        let processor = ResizingImageProcessor(referenceSize: CGSize(width: self.charImag.bounds.width * 2, height: 0), mode: .aspectFill)
-        self.charImag?.kf.setImage(with: URL(string: imageFullPath! ),
-                                    placeholder: nil,
-                                    options: [.backgroundDecode,
-                                              .transition(.fade(0.2)),
-                                              .processor(processor)],
-                                    progressBlock: nil,
-                                    completionHandler: nil )
-        
-       // charImag.downloadImageFrom(link: imageFullPath ?? "", contentMode: .scaleAspectFill)
+        charImag.downloadImageByKF(imagePath: imageFullPath)
         charImag.contentMode = .scaleAspectFill
-        
+        // charImag.downloadImageFrom(link: imageFullPath ?? "", contentMode: .scaleAspectFill)
         nameLabel.text = character.name
         charImag?.bringSubviewToFront(nameLabel.superview!)
         
