@@ -9,20 +9,19 @@
 import UIKit
 
 class CharListViewController: UIViewController, CharListPresenterDelegate {
- 
-    @IBOutlet weak var collectionView: UICollectionView!
+    
+    // MARK:- Outlets
     @IBOutlet weak var tableView: UITableView!
-
+    
+    // MARK:- vars
     var presenter = CharListPresenter()
     var charResponce : CharResponce?
     var charList: [Character] = []
     var filterdCharList: [Character] = []
-    
     var searchActive : Bool = false
-   // lazy var searchBar:UISearchBar = UISearchBar(frame: CGRect.zero)
-    let searchController = UISearchController(searchResultsController: nil)
+    
+    // MARK:- UI vars
     var rightBarButton = UIBarButtonItem()
-
     lazy var  spinner : UIActivityIndicatorView = {
         let spinner =  UIActivityIndicatorView(style: .gray)
         spinner.startAnimating()
@@ -30,37 +29,35 @@ class CharListViewController: UIViewController, CharListPresenterDelegate {
         spinner.color = UIColor.red
         return spinner
     }()
-
     
+    // MARK:- Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupTableView()
-        rightBarButton = UIBarButtonItem(image: UIImage(named: "add-1" ) , style: .done, target: self, action: #selector(ActiveSearch))
-        self.navigationItem.rightBarButtonItem = rightBarButton
+        setNavBarImage()
+        setNavBarButtons()
         presenter.delegate = self
         presenter.fetchCharacters(limit: 20, count: 10, offset: 0)
-    }
- 
-  @objc func ActiveSearch(){
-        searchActive = true
-        configureSearchController()
+    
+        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.barStyle = .black
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+    }
+    
+    // MARK:- config UI
     func setupTableView(){ 
-
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "MarvelMainTableViewCell", bundle: nil), forCellReuseIdentifier: "MarvelMainTableViewCell")
         tableView.register(UINib(nibName: "CharSearchTableViewCell", bundle: nil), forCellReuseIdentifier: "CharSearchTableViewCell")
     }
-    
-    func onSuccessFetchCharacters(charResponce: CharResponce?) {
-        self.charResponce = charResponce
-        spinner.stopAnimating()
-        configTableView()
-    }
-    
     func configTableView(){
         for char in (charResponce?.charList)! {
             self.charList.append(char)
@@ -68,8 +65,31 @@ class CharListViewController: UIViewController, CharListPresenterDelegate {
         tableView.reloadData()
     }
     
+    // MARK:- Helpers
+    func onSuccessFetchCharacters(charResponce: CharResponce?) {
+        self.charResponce = charResponce
+        spinner.stopAnimating()
+        configTableView()
+    }
+    
+    @objc func ActiveSearch(){
+        searchActive = true
+        configureSearchController()
+    }
+    func setNavBarImage(){
+        let logo = UIImage(named: "icn-nav-marvel")
+        let imageView = UIImageView(image:logo)
+        self.navigationItem.titleView = imageView
+    }
+    func setNavBarButtons(){
+        rightBarButton = UIBarButtonItem(image: UIImage(named: "icn-nav-search" ) , style: .done, target: self, action: #selector(ActiveSearch))
+        self.navigationItem.rightBarButtonItem = rightBarButton
+    }
+    
+    
 }
 
+// MARK:- table view
 extension CharListViewController : UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchActive {
@@ -94,7 +114,7 @@ extension CharListViewController : UITableViewDataSource, UITableViewDelegate, U
                 return cell
             }
         }
-      
+        
         return UITableViewCell()
     }
     
@@ -103,14 +123,12 @@ extension CharListViewController : UITableViewDataSource, UITableViewDelegate, U
         if searchActive {
             return
         }
-        // UITableView only moves in one direction, y axis
         let currentOffset = scrollView.contentOffset.y
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
         
         self.tableView.tableFooterView = spinner
         self.tableView.tableFooterView?.isHidden = false
-
-        // Change 10.0 to adjust the distance from bottom
+        
         if maximumOffset - currentOffset <= 20.0 {
             DispatchQueue.main.async {
                 self.presenter.fetchCharacters(limit: 20, count: 0, offset: self.charList.count)
@@ -134,60 +152,44 @@ extension CharListViewController : UITableViewDataSource, UITableViewDelegate, U
         } else {
             vc.character = charList[indexPath.row]
         }
-        
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
 }
 
 
-
+// MARK:- Search bar
 extension CharListViewController: UISearchControllerDelegate , UISearchBarDelegate, UISearchResultsUpdating {
- 
     
     func configureSearchController() {
+        let searchController = UISearchController(searchResultsController: nil)
         
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         
-        self.searchController.hidesNavigationBarDuringPresentation = false
-        self.searchController.dimsBackgroundDuringPresentation = true
-        self.searchController.obscuresBackgroundDuringPresentation = false
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = true
+        searchController.obscuresBackgroundDuringPresentation = false
+        
         definesPresentationContext = true
         navigationItem.rightBarButtonItems = nil
-
-        navigationItem.titleView = searchController.searchBar
+        navigationItem.titleView = nil
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchBar.placeholder = "Search ..."
-
+        
         searchController.searchBar.sizeToFit()
         searchController.searchBar.becomeFirstResponder()
+        tableView.reloadData()
         
     }
     
     func updateSearchResults(for searchController: UISearchController) {
-        //applySearch(searchText: searchController.searchBar.text!)
         let searchBar = searchController.searchBar
         applySearch(searchText: searchBar.text!)
     }
-  
-     func applySearch(searchText: String) {
-        if searchText != "" {
-
-        self.filterdCharList = self.charList.filter() {
-            if ($0.name!.lowercased().hasPrefix(searchText.lowercased())){
-                return true
-            }else{
-                return false
-            }
-        }
-        } else {
-            filterdCharList.removeAll()
-        }
-        tableView.reloadData()
-    }
-
-
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         applySearch(searchText: searchBar.text!)
     }
@@ -195,18 +197,38 @@ extension CharListViewController: UISearchControllerDelegate , UISearchBarDelega
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchActive = false
         navigationItem.rightBarButtonItem = rightBarButton
-        navigationItem.searchController?.searchBar.isHidden = true
+        navigationItem.searchController = nil
+        setNavBarImage()
         filterdCharList.removeAll()
         tableView.reloadData()
     }
-
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        
+    }
+    
     
     func searchBarBookmarkButtonClicked(_ searchBar: UISearchBar) {
         if !searchActive {
             searchActive = true
             tableView.reloadData()
         }
-        searchController.searchBar.resignFirstResponder()
     }
-
+    
+    func applySearch(searchText: String) {
+        
+        if searchText == "" {
+            filterdCharList.removeAll()
+            return 
+        }
+        self.filterdCharList = self.charList.filter() {
+            return ($0.name!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil)
+        }
+        
+        
+        tableView.reloadData()
+    }
+    
+    
+    
 }

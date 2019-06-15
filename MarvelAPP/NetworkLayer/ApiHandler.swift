@@ -29,7 +29,7 @@ class ApiHandler {
             } else if responseObject.result.isFailure {
                 delegate?.handleFailuer()
             } else {
-                delegate?.handleError(status: 201)
+                delegate?.handleError(error: "201")
             }
         }
     }
@@ -38,6 +38,6 @@ class ApiHandler {
 
 // will handle all failuer and errors in webservice
 protocol HandleErrors {
-    func handleError(status: Int)
+    func handleError(error: String)
     func handleFailuer()
 }

@@ -35,13 +35,15 @@ struct Character: JSONModel {
     
     var id: Int?
     var name: String?
-    var bio: String?
+    var description: String?
     var thumImage: ThumbImage?
+    var title: String?
     
     init(parameter: JSON) {
         id = parameter["id"].intValue
         name = parameter["name"].stringValue
-        bio = parameter["bio"].stringValue
+        description = parameter["description"].stringValue
+        title = parameter["title"].stringValue
         thumImage = ThumbImage(parameter: parameter["thumbnail"])
     }
     
