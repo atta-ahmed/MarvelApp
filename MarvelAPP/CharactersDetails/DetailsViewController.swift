@@ -8,32 +8,29 @@
 
 import UIKit
 
-class DetailsViewController: BaseViewController, DetailsPresenterDelegate {
+class DetailsViewController: BaseViewController {
     
     
-    @IBOutlet weak var bgImage: UIImageView!
-    @IBOutlet weak var headerImage: UIImageView!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet fileprivate weak var bgImage: UIImageView!
+    @IBOutlet fileprivate weak var headerImage: UIImageView!
+    @IBOutlet fileprivate weak var tableView: UITableView!
     
-    var presenter = DetailsPresenter()
+    fileprivate var presenter = DetailsPresenter()
     
-    var comicsResponce: [Details]?
-    var storiesResponce: [Details]?
-    var eventsResponce: [Details]?
-    var seriesResponce: [Details]?
-    
-    var character: Character?
-    
-    var storedOffsets = [Int: CGFloat]()
+    fileprivate var comicsResponce: [Details]?
+    fileprivate var storiesResponce: [Details]?
+    fileprivate var eventsResponce: [Details]?
+    fileprivate var seriesResponce: [Details]?
+    fileprivate var character: Character?
+    fileprivate var storedOffsets = [Int: CGFloat]()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         makeNavigationTransparent()
         setTableContentInset()
-        navigationController?.navigationBar.backgroundColor = .clear
-        navigationController?.navigationBar.barStyle = .black
-        navigationItem.hidesBackButton = true
+        setUpNavBar()
+        hideBacBtnUntilApiFinished()
         
     }
     
@@ -47,8 +44,8 @@ class DetailsViewController: BaseViewController, DetailsPresenterDelegate {
         presenter.detailsdelegate = self
         callDetailsApi()
         setupTableView()
-        bgImage.downloadImageByKF(imagePath: character?.thumImage?.fullPath())
-        addBlureEffect()
+        adjustTableHeaderHight()
+        setUpBackGroundView()
         
     }
     
@@ -56,7 +53,22 @@ class DetailsViewController: BaseViewController, DetailsPresenterDelegate {
         character?.charDetails.removeAll()
     }
     
-    func callDetailsApi(){
+    // MARK:- Config UI
+    fileprivate func hideBacBtnUntilApiFinished() {
+        navigationItem.hidesBackButton = true
+    }
+    fileprivate func ShowBacBtnWhenApiFinished() {
+        navigationItem.hidesBackButton = true
+    }
+    fileprivate func setUpNavBar() {
+        navigationController?.navigationBar.backgroundColor = .clear
+        // navigationController?.navigationBar.barStyle = .black
+    }
+    fileprivate func setUpBackGroundView() {
+        bgImage.downloadImageByKF(imagePath: character?.thumImage?.fullPath())
+        addBlureEffect()
+    }
+    fileprivate func callDetailsApi(){
         if let charId = character?.id {
             self.showLoadingIndicator(boxView)
             presenter.fetchComics(limit: 20, offset: 0, charId: charId)
@@ -66,22 +78,23 @@ class DetailsViewController: BaseViewController, DetailsPresenterDelegate {
             presenter.setupdispatchGroup()
         }
     }
-    
-    func setTableContentInset(){
+    fileprivate func setTableContentInset(){
         if let rect = self.navigationController?.navigationBar.frame {
             let y = rect.size.height + rect.origin.y
             self.tableView.contentInset = UIEdgeInsets( top: -y , left: 0, bottom: 20, right: 0)
         }
-        
     }
-    func setupTableView(){
+    fileprivate func adjustTableHeaderHight() {
+        tableView.tableHeaderView?.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: view.frame.height * 0.5)
+    }
+    
+    fileprivate func setupTableView(){
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
         headerImage.downloadImageByKF(imagePath: character?.thumImage?.fullPath())
     }
-    
-    func addBlureEffect(){
+    fileprivate func addBlureEffect(){
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = bgImage.bounds
@@ -89,6 +102,15 @@ class DetailsViewController: BaseViewController, DetailsPresenterDelegate {
         bgImage.addSubview(blurEffectView)
     }
     
+    // MARK:- Setters
+    func setCharacterObj(character: Character?){
+        self.character = character
+    }
+    
+    
+}
+
+extension DetailsViewController: DetailsPresenterDelegate {
     
     func onSuccessFetchComics(comicsResponce: [Details]?) {
         self.comicsResponce = comicsResponce
@@ -96,7 +118,6 @@ class DetailsViewController: BaseViewController, DetailsPresenterDelegate {
             self.character?.charDetails.append(["Comics": comicsResponce!])
         }
         print("fetch comics")
-        
     }
     
     func onSuccessFetchStories(storiesResponce: [Details]?) {
@@ -105,7 +126,6 @@ class DetailsViewController: BaseViewController, DetailsPresenterDelegate {
             self.character?.charDetails.append(["Stories": storiesResponce!])
         }
         print("fetch Stories")
-        
     }
     
     func onSuccessFetchEvents(eventsResponce: [Details]?) {
@@ -114,7 +134,6 @@ class DetailsViewController: BaseViewController, DetailsPresenterDelegate {
             self.character?.charDetails.append(["Events": eventsResponce!])
         }
         print("fetch events")
-        
     }
     
     func onSuccessFetchSeries(seriesResponce: [Details]?) {
@@ -131,7 +150,10 @@ class DetailsViewController: BaseViewController, DetailsPresenterDelegate {
         hideLoadingIndicator(boxView)
         
     }
-    
+  
+    func onError() {
+        ShowBacBtnWhenApiFinished()
+    }
 }
 
 extension DetailsViewController : UITableViewDataSource, UITableViewDelegate  {
@@ -163,7 +185,6 @@ extension DetailsViewController : UITableViewDataSource, UITableViewDelegate  {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 {
-            
             switch indexPath.row {
             case 0:
                 if let cell = tableView.dequeueReusableCell(withIdentifier: "infoTableViewCell") as? infoTableViewCell {
@@ -186,51 +207,49 @@ extension DetailsViewController : UITableViewDataSource, UITableViewDelegate  {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsTableViewCell") as! DetailsTableViewCell
                 cell.titleLable.text = character?.charDetails[indexPath.row - 2].keys.first
                 return cell
-
             }
+            
         } else {
+            
             if let cell = tableView.dequeueReusableCell(withIdentifier: "LinksTableViewCell") as? LinksTableViewCell {
                 if (character?.links[indexPath.row]) != nil {
                     cell.linkLable?.text = character?.links[indexPath.row].type
                 }
                 return cell
             }
-            
         }
         return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return 0
-        }
-        return 30
+        return section == 0 ? 0 : 30
+
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            if indexPath.row  > 1 {
-                return 220
-            }
-            return tableView.estimatedRowHeight
+        if indexPath.section == 0 , indexPath.row > 1{
+                return 240
         }
-        return 50
+        return tableView.estimatedRowHeight
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
         guard let tableViewCell = cell as? DetailsTableViewCell else { return }
-        
         tableViewCell.setCollectionViewDataSourceDelegate(self, forRow: indexPath.row)
         tableViewCell.collectionViewOffset = storedOffsets[indexPath.row] ?? 0
     }
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
         guard let tableViewCell = cell as? DetailsTableViewCell else { return }
-        
         storedOffsets[indexPath.row] = tableViewCell.collectionViewOffset
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 1 {
+            if let path = character?.links[indexPath.row].url , let url = URL(string: path) {
+                UIApplication.shared.open( url, options: [:], completionHandler: nil)
+            }
+        }
+    }
     
 }
 
@@ -261,7 +280,7 @@ extension DetailsViewController : UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let itemsPerRow:CGFloat = 4
+        let itemsPerRow:CGFloat = 3.5
         let hardCodedPadding:CGFloat = 5
         let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
         let itemHeight = collectionView.bounds.height - (2 * hardCodedPadding)

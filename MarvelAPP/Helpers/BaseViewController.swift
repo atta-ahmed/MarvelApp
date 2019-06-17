@@ -11,7 +11,7 @@ import UIKit
 class BaseViewController: UIViewController , BasePresenterDelegate {
   
     lazy var boxView: UIView! = { return self.newLoadingIndicator() }()
-    var basePresenter = BasePresenter()
+    var basePresenter = BasePresenter.init()
     
     override func viewDidLoad() {
         super.viewDidLoad()

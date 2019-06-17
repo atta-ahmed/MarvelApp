@@ -19,9 +19,12 @@ import Foundation
 
 class BasePresenter: HandleErrors {
 
-    
     weak var delegate: BasePresenterDelegate!
-
+   
+    init(){
+        ApiHandler.delegate = self
+    }
+    
     func handleError(error: String) {
         delegate.onHandleError(error: error)
     }

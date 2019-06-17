@@ -78,6 +78,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2E41539E22B828A1002BA133 /* Bases */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Bases;
+			sourceTree = "<group>";
+		};
 		2EA5E53622B447F900DBDC40 /* CharactersDetails */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +146,7 @@
 		2EEE731222B0366600CEF404 /* MarvelAPP */ = {
 			isa = PBXGroup;
 			children = (
+				2E41539E22B828A1002BA133 /* Bases */,
 				2ED2699622B0477700473770 /* MarvelHome */,
 				2EA5E53622B447F900DBDC40 /* CharactersDetails */,
 				2ED2699922B059F000473770 /* Models */,

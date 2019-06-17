@@ -102,11 +102,13 @@ class DetailsPresenter: BasePresenter {
     
     override func handleFailuer() {
         dispatchGroup.leave()
+        detailsdelegate.onError()
         super.handleFailuer()
     }
     
     override func handleError(error: String) {
         dispatchGroup.leave()
+        detailsdelegate.onError()
         super.handleError(error: error)
     }
     
@@ -120,6 +122,7 @@ protocol DetailsPresenterDelegate: class {
     func onSuccessFetchSeries(seriesResponce: [Details]?)
 
     func onSuccessFetchAll(characterDetail: Character?)
+    func onError()
 
 
 }

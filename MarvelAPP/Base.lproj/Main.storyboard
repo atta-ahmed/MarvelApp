@@ -75,7 +75,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QCe-fK-fSe">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IIF-E9-BCt">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -153,7 +153,7 @@
                                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Qfg-A9-NJH">
                                                     <rect key="frame" x="5" y="30.5" width="370" height="203.5"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="5" id="f7a-Q1-PRw">
+                                                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="20" id="f7a-Q1-PRw">
                                                         <size key="itemSize" width="115" height="170"/>
                                                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -161,20 +161,20 @@
                                                     </collectionViewFlowLayout>
                                                     <cells>
                                                         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="DetailsCollectionViewCell" reuseIdentifier="DetailsCollectionViewCell" id="gKs-ks-A1l" customClass="DetailsCollectionViewCell" customModule="MarvelAPP" customModuleProvider="target">
-                                                            <rect key="frame" x="0.0" y="14.5" width="115" height="175"/>
+                                                            <rect key="frame" x="0.0" y="17" width="115" height="170"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                                                <rect key="frame" x="0.0" y="0.0" width="115" height="175"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="115" height="170"/>
                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                 <subviews>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V5a-GX-B2S">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="115" height="167"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="112" height="162"/>
                                                                         <subviews>
                                                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NvE-0m-UJM">
-                                                                                <rect key="frame" x="0.0" y="0.0" width="115" height="125.5"/>
+                                                                                <rect key="frame" x="0.0" y="0.0" width="112" height="121.5"/>
                                                                             </imageView>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Marvel Masterworks: Captain America Vol. 1 - 2nd Edition (2003)" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ve9-S0-COE">
-                                                                                <rect key="frame" x="10" y="130.5" width="95" height="43"/>
+                                                                                <rect key="frame" x="10" y="126.5" width="92" height="43"/>
                                                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <nil key="highlightedColor"/>
@@ -196,12 +196,11 @@
                                                             </view>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="trailing" secondItem="V5a-GX-B2S" secondAttribute="trailing" id="Ynq-NM-8Yp"/>
+                                                                <constraint firstAttribute="trailing" secondItem="V5a-GX-B2S" secondAttribute="trailing" constant="3" id="Ynq-NM-8Yp"/>
                                                                 <constraint firstAttribute="bottom" secondItem="V5a-GX-B2S" secondAttribute="bottom" constant="8" id="aS2-un-fZl"/>
                                                                 <constraint firstItem="V5a-GX-B2S" firstAttribute="top" secondItem="gKs-ks-A1l" secondAttribute="top" id="jrQ-Rq-xCo"/>
                                                                 <constraint firstItem="V5a-GX-B2S" firstAttribute="leading" secondItem="gKs-ks-A1l" secondAttribute="leading" id="taA-cX-Ja6"/>
                                                             </constraints>
-                                                            <size key="customSize" width="115" height="175"/>
                                                             <connections>
                                                                 <outlet property="Namelabel" destination="Ve9-S0-COE" id="VIG-SU-XvC"/>
                                                                 <outlet property="image" destination="NvE-0m-UJM" id="ULk-5I-oNI"/>

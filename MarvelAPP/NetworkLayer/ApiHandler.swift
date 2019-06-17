@@ -17,6 +17,7 @@ class ApiHandler {
     class func request<T: JSONModel >(url: String , success:@escaping (T) -> Void, method: HTTPMethod, paramter: [String: Any] ){
 
         Alamofire.request( MarvelAPIConfig.URL + url , method: method, parameters: paramter, encoding: URLEncoding.default , headers: nil).responseJSON { (responseObject) -> Void in
+            print( "url ==> ", MarvelAPIConfig.URL + url)
             print(responseObject)
             if responseObject.result.isSuccess  {
                 

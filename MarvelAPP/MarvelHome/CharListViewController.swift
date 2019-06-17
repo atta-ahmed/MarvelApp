@@ -22,6 +22,7 @@ class CharListViewController: UIViewController, CharListPresenterDelegate {
     
     // MARK:- UI vars
     var rightBarButton = UIBarButtonItem()
+    let searchController = UISearchController(searchResultsController: nil)
     lazy var  spinner : UIActivityIndicatorView = {
         let spinner =  UIActivityIndicatorView(style: .gray)
         spinner.startAnimating()
@@ -29,9 +30,6 @@ class CharListViewController: UIViewController, CharListPresenterDelegate {
         spinner.color = UIColor.red
         return spinner
     }()
-    
-    let searchController = UISearchController(searchResultsController: nil)
-
     
     // MARK:- Life Cycle
     override func viewDidLoad() {
@@ -42,35 +40,36 @@ class CharListViewController: UIViewController, CharListPresenterDelegate {
         setNavBarButtons()
         presenter.charLisDelegate = self
         searchController.searchBar.delegate = self
-
         presenter.fetchCharacters(limit: 20, count: 10, offset: 0)
-    
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.barStyle = .blackTranslucent
         navigationController?.navigationBar.backgroundColor = .black
-        makeNavigationTransparent()
         resetNavigationTransparency()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-    }
-    
     // MARK:- config UI
-    func setupTableView(){ 
-        
+    fileprivate func setupTableView(){
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "MarvelMainTableViewCell", bundle: nil), forCellReuseIdentifier: "MarvelMainTableViewCell")
         tableView.register(UINib(nibName: "CharSearchTableViewCell", bundle: nil), forCellReuseIdentifier: "CharSearchTableViewCell")
     }
-    func configTableView(){
+    fileprivate func configTableView(){
         for char in (charResponce?.charList)! {
             self.charList.append(char as! Character)
         }
         tableView.reloadData()
+    }
+    fileprivate func setNavBarImage(){
+        let logo = UIImage(named: "icn-nav-marvel")
+        let imageView = UIImageView(image:logo)
+        self.navigationItem.titleView = imageView
+    }
+    fileprivate func setNavBarButtons(){
+        rightBarButton = UIBarButtonItem(image: UIImage(named: "icn-nav-search" ) , style: .done, target: self, action: #selector(ActiveSearch))
+        self.navigationItem.rightBarButtonItem = rightBarButton
     }
     
     // MARK:- Helpers
@@ -84,58 +83,9 @@ class CharListViewController: UIViewController, CharListPresenterDelegate {
         searchActive = true
         configureSearchController()
     }
-    func setNavBarImage(){
-        let logo = UIImage(named: "icn-nav-marvel")
-        let imageView = UIImageView(image:logo)
-        self.navigationItem.titleView = imageView
-    }
-    func setNavBarButtons(){
-        rightBarButton = UIBarButtonItem(image: UIImage(named: "icn-nav-search" ) , style: .done, target: self, action: #selector(ActiveSearch))
-        self.navigationItem.rightBarButtonItem = rightBarButton
-    }
-    
-}
-
-// MARK:- table view
-extension CharListViewController : UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchActive {
-            return filterdCharList.count
-        } else {
-            return charList.count
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if searchActive {
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "CharSearchTableViewCell" , for: indexPath) as? CharSearchTableViewCell {
-                
-                cell.configCell(character: filterdCharList[indexPath.row])
-                return cell
-            }
-        } else {
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "MarvelMainTableViewCell" , for: indexPath) as? CharListTableViewCell {
-                
-                cell.configCell(character: charList[indexPath.row])
-                return cell
-            }
-        }
-        
-        return UITableViewCell()
-    }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        
-        if searchActive {
-            return
-        }
+    fileprivate func loadMoreCharacters(_ scrollView: UIScrollView) {
         let currentOffset = scrollView.contentOffset.y
         let maximumOffset = scrollView.contentSize.height - scrollView.frame.size.height
-        
-        self.tableView.tableFooterView = spinner
-        self.tableView.tableFooterView?.isHidden = false
-        
         if maximumOffset - currentOffset <= 20.0 {
             DispatchQueue.main.async {
                 self.presenter.fetchCharacters(limit: 20, count: 0, offset: self.charList.count)
@@ -143,23 +93,59 @@ extension CharListViewController : UITableViewDataSource, UITableViewDelegate, U
             spinner.startAnimating()
         }
     }
-    
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if searchActive {
-            return 80
-        }
-        return 180
+    fileprivate func showSpinner(){
+        self.tableView.tableFooterView = spinner
+        self.tableView.tableFooterView?.isHidden = false
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = storyboard?.instantiateViewController(withIdentifier: "DetailsViewController") as! DetailsViewController
-        if searchActive {
-            vc.character = filterdCharList[indexPath.row]
-        } else {
-            vc.character = charList[indexPath.row]
+    // MARK:- Actions
+    fileprivate func navigateToCharacterDetailsView(_ indexPath: IndexPath) {
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "DetailsViewController") as? DetailsViewController {
+            if searchActive {
+                vc.setCharacterObj(character: filterdCharList[indexPath.row])
+            } else {
+                vc.setCharacterObj(character: charList[indexPath.row])
+            }
+            self.navigationController?.pushViewController(vc, animated: true)
         }
-        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    
+}
+
+// MARK:- table view
+extension CharListViewController : UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
+   
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return searchActive ? filterdCharList.count : charList.count
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return searchActive ? 80 : 180
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if searchActive {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "CharSearchTableViewCell" , for: indexPath) as? CharSearchTableViewCell {
+                cell.configCell(character: filterdCharList[indexPath.row])
+                return cell
+            }
+        } else {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "MarvelMainTableViewCell" , for: indexPath) as? CharListTableViewCell {
+                cell.configCell(character: charList[indexPath.row])
+                return cell
+            }
+        }
+        return UITableViewCell()
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigateToCharacterDetailsView(indexPath)
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if searchActive { return }
+        loadMoreCharacters(scrollView)
     }
     
 }
@@ -167,7 +153,7 @@ extension CharListViewController : UITableViewDataSource, UITableViewDelegate, U
 
 // MARK:- Search bar
 extension CharListViewController: UISearchControllerDelegate , UISearchBarDelegate, UISearchResultsUpdating {
-
+    
     func configureSearchController() {
         
         searchController.searchResultsUpdater = self
@@ -181,7 +167,7 @@ extension CharListViewController: UISearchControllerDelegate , UISearchBarDelega
         definesPresentationContext = true
         navigationItem.rightBarButtonItems = nil
         navigationItem.titleView = nil
-
+        
         // navigationItem.titleView = searchController.searchBar
         navigationItem.searchController = searchController
         navigationItem.searchController?.hidesNavigationBarDuringPresentation = true
@@ -196,7 +182,7 @@ extension CharListViewController: UISearchControllerDelegate , UISearchBarDelega
     
     func updateSearchResults(for searchController: UISearchController) {
         let searchBar = searchController.searchBar
-         applySearch(searchText: searchBar.text!)
+        applySearch(searchText: searchBar.text!)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
