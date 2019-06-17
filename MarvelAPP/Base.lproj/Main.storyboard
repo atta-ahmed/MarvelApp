@@ -48,6 +48,7 @@
         <scene sceneID="qyT-ec-Pxo">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nbp-4z-cap" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="92z-AK-5ax">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>

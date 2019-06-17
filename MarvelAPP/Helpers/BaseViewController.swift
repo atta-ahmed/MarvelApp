@@ -8,22 +8,23 @@
 
 import UIKit
 
-class BaseViewController: UIViewController , HandleErrors {
-
+class BaseViewController: UIViewController , BasePresenterDelegate {
+  
     lazy var boxView: UIView! = { return self.newLoadingIndicator() }()
+    var basePresenter = BasePresenter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        ApiHandler.delegate = self
+        basePresenter.delegate = self
     }
-    
-    func handleError(error: String) {
+    func onHandleError(error: String) {
         hideLoadingIndicator(boxView)
         self.alert(message: error )
     }
-    func handleFailuer() {
+    
+    func onHandleFailuer() {
         hideLoadingIndicator(boxView)
-        self.showFaileuirAlert(error: "")
+        self.showFaileuirAlert(error: "Server Error")
     }
     
     

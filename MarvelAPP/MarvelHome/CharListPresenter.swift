@@ -8,12 +8,10 @@
 
 import Foundation
 
-class CharListPresenter {
+class CharListPresenter: BasePresenter {
     
-    weak var delegate: CharListPresenterDelegate!
+    weak var charLisDelegate: CharListPresenterDelegate!
     var charResponce: CharResponce?
-    
-
     
     func fetchCharacters(limit: Int, count: Int, offset: Int) {
         let paramter = ["apikey": MarvelAPIConfig.apikey,
@@ -25,7 +23,7 @@ class CharListPresenter {
     }
     func successFetchCharacters(res: CharListResponce){
         charResponce = res.data
-        delegate.onSuccessFetchCharacters(charResponce: charResponce)
+        charLisDelegate.onSuccessFetchCharacters(charResponce: charResponce)
     }
     
     

@@ -7,9 +7,9 @@
 //
 
 import Foundation
-class DetailsPresenter {
+class DetailsPresenter: BasePresenter {
     
-    weak var delegate: DetailsPresenterDelegate!
+    weak var detailsdelegate: DetailsPresenterDelegate!
     var comicsResponce: [Details]?
     var storiesResponce: [Details]?
     var eventsResponce: [Details]?
@@ -28,79 +28,87 @@ class DetailsPresenter {
         ApiHandler.request(url: "characters/\(charId)/\(detailType)", success: self.successFetchCharactersDetails, method: .get, paramter: paramter)
     }
     func successFetchCharactersDetails(res: CharListResponce){
-        comicsResponce = res.data?.charList
+      //  comicsResponce = res.data?.charList
      //   delegate.onSuccessFetchDetails(charResponce: comicsResponce)
     }
 
     
     func fetchComics(limit: Int, offset: Int, charId: Int) {
+           dispatchGroup.enter()
         let paramter = ["apikey": MarvelAPIConfig.apikey,
                         "ts": MarvelAPIConfig.ts,
                         "hash": MarvelAPIConfig.hash,
                         "offset": offset,
                         ] as [String : Any]
-        dispatchGroup.enter()
         ApiHandler.request(url: "characters/\(charId)/comics", success: self.successFetchComics, method: .get, paramter: paramter)
     }
     func successFetchComics(res: CharListResponce){
+           dispatchGroup.leave()
         comicsResponce = res.data?.charList
-        delegate.onSuccessFetchComics(comicsResponce: comicsResponce)
-        dispatchGroup.leave()
+        detailsdelegate.onSuccessFetchComics(comicsResponce: comicsResponce)
     }
     
     
     func fetchStories(limit: Int, offset: Int, charId: Int) {
+        dispatchGroup.enter()
         let paramter = ["apikey": MarvelAPIConfig.apikey,
                         "ts": MarvelAPIConfig.ts,
                         "hash": MarvelAPIConfig.hash,
                         "offset": offset,
                         ] as [String : Any]
-        dispatchGroup.enter()
         ApiHandler.request(url: "characters/\(charId)/stories", success: self.successFetchStoris, method: .get, paramter: paramter)
     }
     func successFetchStoris(res: CharListResponce){
-        storiesResponce = res.data?.charList
-        delegate.onSuccessFetchStories(storiesResponce: storiesResponce)
         dispatchGroup.leave()
+        storiesResponce = res.data?.charList
+        detailsdelegate.onSuccessFetchStories(storiesResponce: storiesResponce)
     }
     
     func fetchEvents(limit: Int, offset: Int, charId: Int) {
+                dispatchGroup.enter()
         let paramter = ["apikey": MarvelAPIConfig.apikey,
                         "ts": MarvelAPIConfig.ts,
                         "hash": MarvelAPIConfig.hash,
                         "offset": offset,
                         ] as [String : Any]
-        dispatchGroup.enter()
         ApiHandler.request(url: "characters/\(charId)/events", success: self.successFetchEvents, method: .get, paramter: paramter)
     }
     func successFetchEvents(res: CharListResponce){
-        eventsResponce = res.data?.charList
-        delegate.onSuccessFetchEvents(eventsResponce: eventsResponce)
         dispatchGroup.leave()
+        eventsResponce = res.data?.charList
+        detailsdelegate.onSuccessFetchEvents(eventsResponce: eventsResponce)
     }
     
     func fetchSeries(limit: Int, offset: Int, charId: Int) {
+        dispatchGroup.enter()
         let paramter = ["apikey": MarvelAPIConfig.apikey,
                         "ts": MarvelAPIConfig.ts,
                         "hash": MarvelAPIConfig.hash,
                         "offset": offset,
                         ] as [String : Any]
-        dispatchGroup.enter()
         ApiHandler.request(url: "characters/\(charId)/series", success: self.successFetchSeries, method: .get, paramter: paramter)
     }
     func successFetchSeries(res: CharListResponce){
-        seriesResponce = res.data?.charList
-        delegate.onSuccessFetchSeries(seriesResponce: seriesResponce)
         dispatchGroup.leave()
+        seriesResponce = res.data?.charList
+        detailsdelegate.onSuccessFetchSeries(seriesResponce: seriesResponce)
     }
-    
     
     func setupdispatchGroup() {
         dispatchGroup.notify(queue: .main) {
-            self.delegate.onSuccessFetchAll(characterDetail: self.characterDetail)
+            self.detailsdelegate.onSuccessFetchAll(characterDetail: self.characterDetail)
         }
     }
     
+    override func handleFailuer() {
+        dispatchGroup.leave()
+        super.handleFailuer()
+    }
+    
+    override func handleError(error: String) {
+        dispatchGroup.leave()
+        super.handleError(error: error)
+    }
     
 }
 

@@ -30,6 +30,9 @@ class CharListViewController: UIViewController, CharListPresenterDelegate {
         return spinner
     }()
     
+    let searchController = UISearchController(searchResultsController: nil)
+
+    
     // MARK:- Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,14 +40,19 @@ class CharListViewController: UIViewController, CharListPresenterDelegate {
         setupTableView()
         setNavBarImage()
         setNavBarButtons()
-        presenter.delegate = self
+        presenter.charLisDelegate = self
+        searchController.searchBar.delegate = self
+
         presenter.fetchCharacters(limit: 20, count: 10, offset: 0)
     
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.barStyle = .blackTranslucent
+        navigationController?.navigationBar.backgroundColor = .black
+        makeNavigationTransparent()
+        resetNavigationTransparency()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -86,7 +94,6 @@ class CharListViewController: UIViewController, CharListPresenterDelegate {
         self.navigationItem.rightBarButtonItem = rightBarButton
     }
     
-    
 }
 
 // MARK:- table view
@@ -104,7 +111,7 @@ extension CharListViewController : UITableViewDataSource, UITableViewDelegate, U
         if searchActive {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "CharSearchTableViewCell" , for: indexPath) as? CharSearchTableViewCell {
                 
-                cell.configCell(character: charList[indexPath.row])
+                cell.configCell(character: filterdCharList[indexPath.row])
                 return cell
             }
         } else {
@@ -160,12 +167,11 @@ extension CharListViewController : UITableViewDataSource, UITableViewDelegate, U
 
 // MARK:- Search bar
 extension CharListViewController: UISearchControllerDelegate , UISearchBarDelegate, UISearchResultsUpdating {
-    
+
     func configureSearchController() {
-        let searchController = UISearchController(searchResultsController: nil)
         
         searchController.searchResultsUpdater = self
-        searchController.searchBar.delegate = self
+        searchController.delegate = self
         searchController.searchResultsUpdater = self
         
         searchController.hidesNavigationBarDuringPresentation = false
@@ -175,19 +181,22 @@ extension CharListViewController: UISearchControllerDelegate , UISearchBarDelega
         definesPresentationContext = true
         navigationItem.rightBarButtonItems = nil
         navigationItem.titleView = nil
+
+        // navigationItem.titleView = searchController.searchBar
         navigationItem.searchController = searchController
+        navigationItem.searchController?.hidesNavigationBarDuringPresentation = true
+        
         navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchBar.placeholder = "Search ..."
         
         searchController.searchBar.sizeToFit()
         searchController.searchBar.becomeFirstResponder()
         tableView.reloadData()
-        
     }
     
     func updateSearchResults(for searchController: UISearchController) {
         let searchBar = searchController.searchBar
-        applySearch(searchText: searchBar.text!)
+         applySearch(searchText: searchBar.text!)
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -203,11 +212,6 @@ extension CharListViewController: UISearchControllerDelegate , UISearchBarDelega
         tableView.reloadData()
     }
     
-    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        
-    }
-    
-    
     func searchBarBookmarkButtonClicked(_ searchBar: UISearchBar) {
         if !searchActive {
             searchActive = true
@@ -219,16 +223,11 @@ extension CharListViewController: UISearchControllerDelegate , UISearchBarDelega
         
         if searchText == "" {
             filterdCharList.removeAll()
-            return 
+            return
         }
-        self.filterdCharList = self.charList.filter() {
-            return ($0.name!.range(of: searchText, options: .caseInsensitive, range: nil, locale: nil) != nil)
-        }
-        
+        self.filterdCharList = self.charList.filter({ $0.name?.hasPrefix(searchText) ?? false })
         
         tableView.reloadData()
     }
-    
-    
     
 }

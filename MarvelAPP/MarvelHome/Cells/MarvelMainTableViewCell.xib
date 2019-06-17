@@ -23,10 +23,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="425" height="208.5"/>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pif-Ij-VBw" customClass="triangleView" customModule="MarvelAPP" customModuleProvider="target">
-                        <rect key="frame" x="20" y="138.5" width="170" height="40"/>
+                        <rect key="frame" x="20" y="143.5" width="160" height="35"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Abyss (Age of Apocalypse)" textAlignment="center" lineBreakMode="middleTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IPu-wM-ULe">
-                                <rect key="frame" x="10" y="11" width="150" height="18"/>
+                                <rect key="frame" x="10" y="8.5" width="140" height="18"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -36,8 +36,8 @@
                         <constraints>
                             <constraint firstItem="IPu-wM-ULe" firstAttribute="leading" secondItem="Pif-Ij-VBw" secondAttribute="leading" constant="10" id="1H4-cb-pge"/>
                             <constraint firstAttribute="trailing" secondItem="IPu-wM-ULe" secondAttribute="trailing" constant="10" id="DGt-8H-bJG"/>
-                            <constraint firstAttribute="width" constant="170" id="NKW-m9-cMo"/>
-                            <constraint firstAttribute="height" constant="40" id="Vqa-RG-2UK"/>
+                            <constraint firstAttribute="width" constant="160" id="NKW-m9-cMo"/>
+                            <constraint firstAttribute="height" constant="35" id="Vqa-RG-2UK"/>
                             <constraint firstItem="IPu-wM-ULe" firstAttribute="centerY" secondItem="Pif-Ij-VBw" secondAttribute="centerY" id="mQN-66-z5x"/>
                         </constraints>
                     </view>

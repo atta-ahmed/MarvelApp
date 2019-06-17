@@ -31,7 +31,9 @@ class DetailsViewController: BaseViewController, DetailsPresenterDelegate {
         
         makeNavigationTransparent()
         setTableContentInset()
+        navigationController?.navigationBar.backgroundColor = .clear
         navigationController?.navigationBar.barStyle = .black
+        navigationItem.hidesBackButton = true
         
     }
     
@@ -42,7 +44,7 @@ class DetailsViewController: BaseViewController, DetailsPresenterDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.delegate = self
+        presenter.detailsdelegate = self
         callDetailsApi()
         setupTableView()
         bgImage.downloadImageByKF(imagePath: character?.thumImage?.fullPath())
@@ -124,12 +126,11 @@ class DetailsViewController: BaseViewController, DetailsPresenterDelegate {
     }
     
     func onSuccessFetchAll(characterDetail: Character?) {
-        
+        navigationItem.hidesBackButton = false
         tableView.reloadData()
         hideLoadingIndicator(boxView)
         
     }
-    
     
 }
 

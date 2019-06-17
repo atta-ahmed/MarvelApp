@@ -21,6 +21,7 @@ class ApiHandler {
             if responseObject.result.isSuccess  {
                 
                 let res = JSON(responseObject.result.value!)
+    
                 if let finalRes = T(parameter: res) {
                     success(finalRes)
                 }
@@ -29,7 +30,7 @@ class ApiHandler {
             } else if responseObject.result.isFailure {
                 delegate?.handleFailuer()
             } else {
-                delegate?.handleError(error: "201")
+                delegate?.handleError(error: "201") // fetch error
             }
         }
     }
