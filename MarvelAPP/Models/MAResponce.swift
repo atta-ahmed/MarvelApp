@@ -14,13 +14,6 @@ protocol JSONModel {
     init?(parameter: JSON)
 }
 
-class MAResponce: JSONModel {
-    
-    required init?(parameter: JSON) {
-        return
-    }
-}
-
 struct CharListResponce: JSONModel {
     
     var data: CharResponce?

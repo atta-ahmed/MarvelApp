@@ -14,13 +14,7 @@ extension UIImageView {
     
     func downloadImageByKF(imagePath: String?){
         if let path = imagePath {
-            // Processor for resizing images
-
-            self.kf.setImage(with: URL(string: path ),
-                             placeholder: nil,
-                             options: nil,
-                             progressBlock: nil,
-                             completionHandler: nil )
+            self.kf.setImage(with:  URL(string: path ) , placeholder: UIImage(named: "placholder"), options: [], progressBlock: nil, completionHandler: nil)
         }
     }
     

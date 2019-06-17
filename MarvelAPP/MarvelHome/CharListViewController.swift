@@ -60,7 +60,7 @@ class CharListViewController: UIViewController, CharListPresenterDelegate {
     }
     func configTableView(){
         for char in (charResponce?.charList)! {
-            self.charList.append(char)
+            self.charList.append(char as! Character)
         }
         tableView.reloadData()
     }

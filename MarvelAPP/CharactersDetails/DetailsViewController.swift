@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController, DetailsPresenterDelegate {
+class DetailsViewController: BaseViewController, DetailsPresenterDelegate {
     
     
     @IBOutlet weak var bgImage: UIImageView!
@@ -17,10 +17,11 @@ class DetailsViewController: UIViewController, DetailsPresenterDelegate {
     
     var presenter = DetailsPresenter()
     
-    var comicsResponce: CharResponce?
-    var storiesResponce: CharResponce?
-    var eventsResponce: CharResponce?
-    var seriesResponce: CharResponce?
+    var comicsResponce: [Details]?
+    var storiesResponce: [Details]?
+    var eventsResponce: [Details]?
+    var seriesResponce: [Details]?
+    
     var character: Character?
     
     var storedOffsets = [Int: CGFloat]()
@@ -49,8 +50,13 @@ class DetailsViewController: UIViewController, DetailsPresenterDelegate {
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        character?.charDetails.removeAll()
+    }
+    
     func callDetailsApi(){
         if let charId = character?.id {
+            self.showLoadingIndicator(boxView)
             presenter.fetchComics(limit: 20, offset: 0, charId: charId)
             presenter.fetchStories(limit: 20, offset: 0, charId: charId)
             presenter.fetchEvents(limit: 20, offset: 0, charId: charId)
@@ -62,7 +68,7 @@ class DetailsViewController: UIViewController, DetailsPresenterDelegate {
     func setTableContentInset(){
         if let rect = self.navigationController?.navigationBar.frame {
             let y = rect.size.height + rect.origin.y
-            self.tableView.contentInset = UIEdgeInsets( top: -y , left: 0, bottom: 0, right: 0)
+            self.tableView.contentInset = UIEdgeInsets( top: -y , left: 0, bottom: 20, right: 0)
         }
         
     }
@@ -81,38 +87,46 @@ class DetailsViewController: UIViewController, DetailsPresenterDelegate {
         bgImage.addSubview(blurEffectView)
     }
     
-    func onSuccessFetchDetails(charResponce: CharResponce?) {
-        comicsResponce = charResponce
-        let x = comicsResponce?.charList[0].thumImage?.fullPath()
-        let y = x
-        
-    }
     
-    func onSuccessFetchComics(comicsResponce: CharResponce?) {
+    func onSuccessFetchComics(comicsResponce: [Details]?) {
         self.comicsResponce = comicsResponce
+        if comicsResponce?.count ?? 0 > 0 {
+            self.character?.charDetails.append(["Comics": comicsResponce!])
+        }
         print("fetch comics")
         
     }
     
-    func onSuccessFetchStories(storiesResponce: CharResponce?) {
+    func onSuccessFetchStories(storiesResponce: [Details]?) {
         self.storiesResponce = storiesResponce
+        if storiesResponce?.count ?? 0 > 0 {
+            self.character?.charDetails.append(["Stories": storiesResponce!])
+        }
         print("fetch Stories")
         
     }
     
-    func onSuccessFetchEvents(eventsResponce: CharResponce?) {
+    func onSuccessFetchEvents(eventsResponce: [Details]?) {
         self.eventsResponce = eventsResponce
+        if eventsResponce?.count ?? 0 > 0 {
+            self.character?.charDetails.append(["Events": eventsResponce!])
+        }
         print("fetch events")
         
     }
     
-    func onSuccessFetchSeries(seriesResponce: CharResponce?) {
+    func onSuccessFetchSeries(seriesResponce: [Details]?) {
         self.seriesResponce = seriesResponce
+        if seriesResponce?.count ?? 0 > 0 {
+            self.character?.charDetails.append(["Series": seriesResponce!])
+        }
         print("fetch series")
     }
     
-    func onSuccessFetchAll() {
+    func onSuccessFetchAll(characterDetail: Character?) {
+        
         tableView.reloadData()
+        hideLoadingIndicator(boxView)
         
     }
     
@@ -123,9 +137,9 @@ extension DetailsViewController : UITableViewDataSource, UITableViewDelegate  {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return 6
+            return (character?.charDetails.count ?? 0) + 2
         }
-        return 3
+        return character?.links.count ?? 0
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -134,10 +148,11 @@ extension DetailsViewController : UITableViewDataSource, UITableViewDelegate  {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerFrame = tableView.frame
         let title = UILabel()
-        title.frame = CGRect(x: 10, y: 10, width: headerFrame.size.width, height: 20)
-        title.text = "Links"
+        title.frame = CGRect(x: 5, y: 10, width: headerFrame.size.width, height: 20)
+        title.text = "RELATED LINKS"
+        title.font = UIFont.systemFont(ofSize: 12)
         title.textColor = UIColor.red
-        let headerView:UIView =  UIView(frame: CGRect(x: 10, y: 0, width: headerFrame.size.width , height: headerFrame.size.height + 20) )
+        let headerView:UIView =  UIView(frame: CGRect(x: 5, y: 0, width: headerFrame.size.width , height: headerFrame.size.height + 20) )
         headerView.backgroundColor = UIColor.clear
         headerView.addSubview(title)
         
@@ -158,22 +173,25 @@ extension DetailsViewController : UITableViewDataSource, UITableViewDelegate  {
                 }
             case 1:
                 if let cell = tableView.dequeueReusableCell(withIdentifier: "infoTableViewCell") as? infoTableViewCell {
-                    
+                    if character?.description == "" {
+                        cell.isHidden = true
+                        return cell
+                    }
                     cell.titleLable.text = "DESCRIPTION"
-                    cell.detailsLable.text = character?.description ?? "Not found"
+                    cell.detailsLable.text = character?.description
                     return cell
                 }
-            case 2,3,4,5:
-                let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsTableViewCell") as! DetailsTableViewCell
-                return cell
             default:
-                break
-                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsTableViewCell") as! DetailsTableViewCell
+                cell.titleLable.text = character?.charDetails[indexPath.row - 2].keys.first
+                return cell
+
             }
         } else {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "LinksTableViewCell") as? LinksTableViewCell {
-                cell.linkLable?.text = "System group container "
-                // cell.accessoryType = .disclosureIndicator
+                if (character?.links[indexPath.row]) != nil {
+                    cell.linkLable?.text = character?.links[indexPath.row].type
+                }
                 return cell
             }
             
@@ -190,7 +208,7 @@ extension DetailsViewController : UITableViewDataSource, UITableViewDelegate  {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             if indexPath.row  > 1 {
-                return 190
+                return 220
             }
             return tableView.estimatedRowHeight
         }
@@ -224,50 +242,26 @@ extension DetailsViewController : UICollectionViewDelegate, UICollectionViewData
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch collectionView.tag {
-        case 2:
-            return comicsResponce?.charList.count ?? 0
-            
-        case 3:
-            return seriesResponce?.charList.count ?? 0
-            
-        case 4:
-            return storiesResponce?.charList.count ?? 0
-            
-        default:
-            return eventsResponce?.charList.count ?? 0
-        }
+        let key = (character?.charDetails[collectionView.tag - 2].keys.first) ?? ""
+        return (character?.charDetails[collectionView.tag - 2][key]?.count) ?? 0
+
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DetailsCollectionViewCell", for: indexPath) as! DetailsCollectionViewCell
-        switch collectionView.tag {
-        case 2:
-            let imagPath = comicsResponce?.charList[indexPath.row].thumImage?.fullPath() ?? ""
-            cell.image.downloadImageByKF(imagePath: imagPath)
-            cell.Namelabel.text = comicsResponce?.charList[indexPath.row].title ?? "xx"
-        case 3:
-            
-            let imagPath = seriesResponce?.charList[indexPath.row].thumImage?.fullPath() ?? ""
-            cell.image.downloadImageByKF(imagePath: imagPath)
-            cell.Namelabel.text = seriesResponce?.charList[indexPath.row].title ?? "xx"
-        case 4:
-            
-            let imagPath = storiesResponce?.charList[indexPath.row].thumImage?.fullPath() ?? ""
-            cell.image.downloadImageByKF(imagePath: imagPath)
-            cell.Namelabel.text = storiesResponce?.charList[indexPath.row].title ?? "xx"
-        default:
-            
-            let imagPath = eventsResponce?.charList[indexPath.row].thumImage?.fullPath() ?? ""
-            cell.image.downloadImageByKF(imagePath: imagPath)
-            cell.Namelabel.text = eventsResponce?.charList[indexPath.row].title ?? "xx"        }
         
+        let ArrayObj = character?.charDetails[collectionView.tag - 2].values.first
+        let obj = ArrayObj![indexPath.row]
+        
+        let imagPath = obj.thumImage?.fullPath()
+        cell.image.downloadImageByKF(imagePath: imagPath)
+        cell.Namelabel.text = obj.title ?? ""
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemsPerRow:CGFloat = 4
-        let hardCodedPadding:CGFloat = 2
+        let hardCodedPadding:CGFloat = 5
         let itemWidth = (collectionView.bounds.width / itemsPerRow) - hardCodedPadding
         let itemHeight = collectionView.bounds.height - (2 * hardCodedPadding)
         return CGSize(width: itemWidth, height: itemHeight)

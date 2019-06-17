@@ -10,10 +10,12 @@ import Foundation
 class DetailsPresenter {
     
     weak var delegate: DetailsPresenterDelegate!
-    var comicsResponce: CharResponce?
-    var storiesResponce: CharResponce?
-    var eventsResponce: CharResponce?
-    var seriesResponce: CharResponce?
+    var comicsResponce: [Details]?
+    var storiesResponce: [Details]?
+    var eventsResponce: [Details]?
+    var seriesResponce: [Details]?
+    
+    var characterDetail: Character?
     
     let dispatchGroup = DispatchGroup()
     
@@ -23,13 +25,11 @@ class DetailsPresenter {
                         "hash": MarvelAPIConfig.hash,
                         "offset": offset,
                         ] as [String : Any]
-        dispatchGroup.enter()
         ApiHandler.request(url: "characters/\(charId)/\(detailType)", success: self.successFetchCharactersDetails, method: .get, paramter: paramter)
     }
     func successFetchCharactersDetails(res: CharListResponce){
-        comicsResponce = res.data
-        delegate.onSuccessFetchDetails(charResponce: comicsResponce)
-        dispatchGroup.leave()
+        comicsResponce = res.data?.charList
+     //   delegate.onSuccessFetchDetails(charResponce: comicsResponce)
     }
 
     
@@ -43,7 +43,7 @@ class DetailsPresenter {
         ApiHandler.request(url: "characters/\(charId)/comics", success: self.successFetchComics, method: .get, paramter: paramter)
     }
     func successFetchComics(res: CharListResponce){
-        comicsResponce = res.data
+        comicsResponce = res.data?.charList
         delegate.onSuccessFetchComics(comicsResponce: comicsResponce)
         dispatchGroup.leave()
     }
@@ -59,7 +59,7 @@ class DetailsPresenter {
         ApiHandler.request(url: "characters/\(charId)/stories", success: self.successFetchStoris, method: .get, paramter: paramter)
     }
     func successFetchStoris(res: CharListResponce){
-        storiesResponce = res.data
+        storiesResponce = res.data?.charList
         delegate.onSuccessFetchStories(storiesResponce: storiesResponce)
         dispatchGroup.leave()
     }
@@ -74,7 +74,7 @@ class DetailsPresenter {
         ApiHandler.request(url: "characters/\(charId)/events", success: self.successFetchEvents, method: .get, paramter: paramter)
     }
     func successFetchEvents(res: CharListResponce){
-        eventsResponce = res.data
+        eventsResponce = res.data?.charList
         delegate.onSuccessFetchEvents(eventsResponce: eventsResponce)
         dispatchGroup.leave()
     }
@@ -89,7 +89,7 @@ class DetailsPresenter {
         ApiHandler.request(url: "characters/\(charId)/series", success: self.successFetchSeries, method: .get, paramter: paramter)
     }
     func successFetchSeries(res: CharListResponce){
-        seriesResponce = res.data
+        seriesResponce = res.data?.charList
         delegate.onSuccessFetchSeries(seriesResponce: seriesResponce)
         dispatchGroup.leave()
     }
@@ -97,7 +97,7 @@ class DetailsPresenter {
     
     func setupdispatchGroup() {
         dispatchGroup.notify(queue: .main) {
-           self.delegate.onSuccessFetchAll()
+            self.delegate.onSuccessFetchAll(characterDetail: self.characterDetail)
         }
     }
     
@@ -105,14 +105,13 @@ class DetailsPresenter {
 }
 
 protocol DetailsPresenterDelegate: class {
-    func onSuccessFetchDetails(charResponce: CharResponce?)
    
-    func onSuccessFetchComics(comicsResponce: CharResponce?)
-    func onSuccessFetchStories(storiesResponce: CharResponce?)
-    func onSuccessFetchEvents(eventsResponce: CharResponce?)
-    func onSuccessFetchSeries(seriesResponce: CharResponce?)
+    func onSuccessFetchComics(comicsResponce: [Details]?)
+    func onSuccessFetchStories(storiesResponce: [Details]?)
+    func onSuccessFetchEvents(eventsResponce: [Details]?)
+    func onSuccessFetchSeries(seriesResponce: [Details]?)
 
-    func onSuccessFetchAll()
+    func onSuccessFetchAll(characterDetail: Character?)
 
 
 }

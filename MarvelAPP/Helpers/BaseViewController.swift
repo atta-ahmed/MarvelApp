@@ -17,13 +17,6 @@ class BaseViewController: UIViewController , HandleErrors {
         ApiHandler.delegate = self
     }
     
-    func startIndicator(){
-        self.view.isUserInteractionEnabled = false
-    }
-    func stopIndicator(){
-        self.view.isUserInteractionEnabled = true
-    }
-    
     func handleError(error: String) {
         hideLoadingIndicator(boxView)
         self.alert(message: error )

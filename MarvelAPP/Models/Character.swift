@@ -14,7 +14,7 @@ struct CharResponce: JSONModel {
     var count: Int?
     var limit: Int?
     var offset: Int?
-    var charList: [Character] = []
+    var charList: [Details] = []
     
     init(parameter: JSON) {
         count = parameter["count"].intValue
@@ -30,24 +30,40 @@ struct CharResponce: JSONModel {
     
 }
 
-
-struct Character: JSONModel {
-    
+class Details: JSONModel {
     var id: Int?
     var name: String?
     var description: String?
     var thumImage: ThumbImage?
     var title: String?
+    var links: [Link] = []
     
-    init(parameter: JSON) {
+    required init(parameter: JSON) {
         id = parameter["id"].intValue
         name = parameter["name"].stringValue
         description = parameter["description"].stringValue
         title = parameter["title"].stringValue
         thumImage = ThumbImage(parameter: parameter["thumbnail"])
+        
+        if let jasonArray = parameter["urls"].array {
+            for json in jasonArray {
+                links.append(Link(parameter: json))
+            }
+        }
+    }
+}
+
+
+class Character: Details {
+    
+    var charDetails: [ [String:[Details]] ] = []
+    
+    required init(parameter: JSON) {
+        super.init(parameter: parameter)
     }
     
 }
+
 
 struct ThumbImage: JSONModel {
     
@@ -94,6 +110,17 @@ struct Item: JSONModel{
         name = parameter["name"].stringValue
         resourceURI = parameter["resourceURI"].stringValue
         
+    }
+    
+}
+
+struct Link: JSONModel {
+    var type: String?
+    var url: String?
+    
+    init(parameter: JSON) {
+        type = parameter["type"].stringValue
+        url = parameter["url"].stringValue
     }
     
 }
