@@ -12,6 +12,8 @@
 		2E41539D22B7DF79002BA133 /* BasePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E41539C22B7DF79002BA133 /* BasePresenter.swift */; };
 		2E48054622B856B5009FF9B0 /* ImageSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E48054522B856B5009FF9B0 /* ImageSliderViewController.swift */; };
 		2E48054822B85701009FF9B0 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E48054722B85701009FF9B0 /* PhotoViewController.swift */; };
+		2E48054A22B90B97009FF9B0 /* RealmModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E48054922B90B97009FF9B0 /* RealmModels.swift */; };
+		2E48054D22B90C45009FF9B0 /* CharListsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E48054C22B90C45009FF9B0 /* CharListsPresenter.swift */; };
 		2EA5E53122B327EE00DBDC40 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5E53022B327EE00DBDC40 /* DetailsViewController.swift */; };
 		2EA5E53322B3D29C00DBDC40 /* DetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5E53222B3D29C00DBDC40 /* DetailsTableViewCell.swift */; };
 		2EA5E53522B3D2DC00DBDC40 /* DetailsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5E53422B3D2DC00DBDC40 /* DetailsCollectionViewCell.swift */; };
@@ -22,7 +24,6 @@
 		2ED2699822B047FB00473770 /* CharListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED2699722B047FB00473770 /* CharListViewController.swift */; };
 		2ED2699B22B05A0A00473770 /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED2699A22B05A0A00473770 /* Character.swift */; };
 		2ED2699D22B05A5B00473770 /* MAResponce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED2699C22B05A5B00473770 /* MAResponce.swift */; };
-		2ED2699F22B13BC800473770 /* CharListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED2699E22B13BC700473770 /* CharListPresenter.swift */; };
 		2ED269A122B18BFF00473770 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED269A022B18BFF00473770 /* Extensions.swift */; };
 		2EEE731422B0366600CEF404 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEE731322B0366600CEF404 /* AppDelegate.swift */; };
 		2EEE731922B0366600CEF404 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2EEE731722B0366600CEF404 /* Main.storyboard */; };
@@ -42,6 +43,8 @@
 		2E41539C22B7DF79002BA133 /* BasePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePresenter.swift; sourceTree = "<group>"; };
 		2E48054522B856B5009FF9B0 /* ImageSliderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSliderViewController.swift; sourceTree = "<group>"; };
 		2E48054722B85701009FF9B0 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
+		2E48054922B90B97009FF9B0 /* RealmModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmModels.swift; sourceTree = "<group>"; };
+		2E48054C22B90C45009FF9B0 /* CharListsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharListsPresenter.swift; sourceTree = "<group>"; };
 		2EA5E53022B327EE00DBDC40 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		2EA5E53222B3D29C00DBDC40 /* DetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTableViewCell.swift; sourceTree = "<group>"; };
 		2EA5E53422B3D2DC00DBDC40 /* DetailsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -52,7 +55,6 @@
 		2ED2699722B047FB00473770 /* CharListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharListViewController.swift; sourceTree = "<group>"; };
 		2ED2699A22B05A0A00473770 /* Character.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
 		2ED2699C22B05A5B00473770 /* MAResponce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAResponce.swift; sourceTree = "<group>"; };
-		2ED2699E22B13BC700473770 /* CharListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharListPresenter.swift; sourceTree = "<group>"; };
 		2ED269A022B18BFF00473770 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		2EEE731022B0366600CEF404 /* MarvelAPP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MarvelAPP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2EEE731322B0366600CEF404 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +93,17 @@
 			path = Bases;
 			sourceTree = "<group>";
 		};
+		2E48054B22B90BFF009FF9B0 /* CharcterListHome */ = {
+			isa = PBXGroup;
+			children = (
+				2EEE732B22B03DD200CEF404 /* Cells */,
+				2ED2699722B047FB00473770 /* CharListViewController.swift */,
+				2EEE733022B03F4100CEF404 /* triangleView.swift */,
+				2E48054C22B90C45009FF9B0 /* CharListsPresenter.swift */,
+			);
+			path = CharcterListHome;
+			sourceTree = "<group>";
+		};
 		2EA5E53622B447F900DBDC40 /* CharactersDetails */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,21 +127,12 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		2ED2699622B0477700473770 /* CharactersHome */ = {
-			isa = PBXGroup;
-			children = (
-				2EEE732B22B03DD200CEF404 /* Cells */,
-				2ED2699722B047FB00473770 /* CharListViewController.swift */,
-				2ED2699E22B13BC700473770 /* CharListPresenter.swift */,
-			);
-			path = CharactersHome;
-			sourceTree = "<group>";
-		};
 		2ED2699922B059F000473770 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				2ED2699A22B05A0A00473770 /* Character.swift */,
 				2ED2699C22B05A5B00473770 /* MAResponce.swift */,
+				2E48054922B90B97009FF9B0 /* RealmModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -154,10 +158,10 @@
 		2EEE731222B0366600CEF404 /* MarvelAPP */ = {
 			isa = PBXGroup;
 			children = (
+				2E48054B22B90BFF009FF9B0 /* CharcterListHome */,
 				2EEE732522B0367000CEF404 /* NetworkLayer */,
 				2ED2699922B059F000473770 /* Models */,
 				2E41539E22B828A1002BA133 /* Bases */,
-				2ED2699622B0477700473770 /* CharactersHome */,
 				2EA5E53622B447F900DBDC40 /* CharactersDetails */,
 				2EEE732822B038B000CEF404 /* Helpers */,
 				2EEE731322B0366600CEF404 /* AppDelegate.swift */,
@@ -191,7 +195,6 @@
 			children = (
 				2EEE732C22B03E1D00CEF404 /* CharListTableViewCell.swift */,
 				2EEE732D22B03E1D00CEF404 /* MarvelMainTableViewCell.xib */,
-				2EEE733022B03F4100CEF404 /* triangleView.swift */,
 				2E3B0F9B22B2551B00910F05 /* CharSearchTableViewCell.swift */,
 				2E3B0F9C22B2551B00910F05 /* CharSearchTableViewCell.xib */,
 			);
@@ -349,6 +352,7 @@
 			files = (
 				2ED2699D22B05A5B00473770 /* MAResponce.swift in Sources */,
 				2ED2699B22B05A0A00473770 /* Character.swift in Sources */,
+				2E48054D22B90C45009FF9B0 /* CharListsPresenter.swift in Sources */,
 				2EA5E53522B3D2DC00DBDC40 /* DetailsCollectionViewCell.swift in Sources */,
 				2ED2699822B047FB00473770 /* CharListViewController.swift in Sources */,
 				2E3B0F9D22B2551B00910F05 /* CharSearchTableViewCell.swift in Sources */,
@@ -362,9 +366,9 @@
 				2EEE732A22B038C300CEF404 /* MarvelAPIConfig.swift in Sources */,
 				2EA5E53D22B4666700DBDC40 /* DetailsPresenter.swift in Sources */,
 				2ED269A122B18BFF00473770 /* Extensions.swift in Sources */,
+				2E48054A22B90B97009FF9B0 /* RealmModels.swift in Sources */,
 				2EEE733122B03F4100CEF404 /* triangleView.swift in Sources */,
 				2EEE732722B0370E00CEF404 /* ApiHandler.swift in Sources */,
-				2ED2699F22B13BC800473770 /* CharListPresenter.swift in Sources */,
 				2EA5E53122B327EE00DBDC40 /* DetailsViewController.swift in Sources */,
 				2EEE731422B0366600CEF404 /* AppDelegate.swift in Sources */,
 				2EA5E53922B4491800DBDC40 /* infoTableViewCell.swift in Sources */,

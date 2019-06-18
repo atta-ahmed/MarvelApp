@@ -1,8 +1,8 @@
 //
-//  CharListPresenter.swift
+//  CharListsPresenter.swift
 //  MarvelAPP
 //
-//  Created by Atta Amed on 6/12/19.
+//  Created by Atta Amed on 6/18/19.
 //  Copyright © 2019 Atta Amed. All rights reserved.
 //
 
