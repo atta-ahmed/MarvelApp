@@ -19,7 +19,7 @@ class DetailsPresenter: BasePresenter {
     
     let dispatchGroup = DispatchGroup()
     
-    func fetchDetails(limit: Int, offset: Int, charId: Int , detailType: String) {
+    private func fetchDetails(limit: Int, offset: Int, charId: Int , detailType: String) {
         let paramter = ["apikey": MarvelAPIConfig.apikey,
                         "ts": MarvelAPIConfig.ts,
                         "hash": MarvelAPIConfig.hash,
@@ -27,7 +27,7 @@ class DetailsPresenter: BasePresenter {
                         ] as [String : Any]
         ApiHandler.request(url: "characters/\(charId)/\(detailType)", success: self.successFetchCharactersDetails, method: .get, paramter: paramter)
     }
-    func successFetchCharactersDetails(res: CharListResponce){
+    private func successFetchCharactersDetails(res: CharListResponce){
       //  comicsResponce = res.data?.charList
      //   delegate.onSuccessFetchDetails(charResponce: comicsResponce)
     }
@@ -40,9 +40,10 @@ class DetailsPresenter: BasePresenter {
                         "hash": MarvelAPIConfig.hash,
                         "offset": offset,
                         ] as [String : Any]
+        print("\(MarvelAPIConfig.URL)characters/\(charId)/comics")
         ApiHandler.request(url: "characters/\(charId)/comics", success: self.successFetchComics, method: .get, paramter: paramter)
     }
-    func successFetchComics(res: CharListResponce){
+    private func successFetchComics(res: CharListResponce){
            dispatchGroup.leave()
         comicsResponce = res.data?.charList
         detailsdelegate.onSuccessFetchComics(comicsResponce: comicsResponce)
@@ -56,9 +57,10 @@ class DetailsPresenter: BasePresenter {
                         "hash": MarvelAPIConfig.hash,
                         "offset": offset,
                         ] as [String : Any]
+        print("\(MarvelAPIConfig.URL)characters/\(charId)/stories")
         ApiHandler.request(url: "characters/\(charId)/stories", success: self.successFetchStoris, method: .get, paramter: paramter)
     }
-    func successFetchStoris(res: CharListResponce){
+    private func successFetchStoris(res: CharListResponce){
         dispatchGroup.leave()
         storiesResponce = res.data?.charList
         detailsdelegate.onSuccessFetchStories(storiesResponce: storiesResponce)
@@ -71,9 +73,10 @@ class DetailsPresenter: BasePresenter {
                         "hash": MarvelAPIConfig.hash,
                         "offset": offset,
                         ] as [String : Any]
+        print("\(MarvelAPIConfig.URL)characters/\(charId)/events")
         ApiHandler.request(url: "characters/\(charId)/events", success: self.successFetchEvents, method: .get, paramter: paramter)
     }
-    func successFetchEvents(res: CharListResponce){
+   private func successFetchEvents(res: CharListResponce){
         dispatchGroup.leave()
         eventsResponce = res.data?.charList
         detailsdelegate.onSuccessFetchEvents(eventsResponce: eventsResponce)
@@ -86,9 +89,10 @@ class DetailsPresenter: BasePresenter {
                         "hash": MarvelAPIConfig.hash,
                         "offset": offset,
                         ] as [String : Any]
+        print("\(MarvelAPIConfig.URL)characters/\(charId)/series")
         ApiHandler.request(url: "characters/\(charId)/series", success: self.successFetchSeries, method: .get, paramter: paramter)
     }
-    func successFetchSeries(res: CharListResponce){
+    private func successFetchSeries(res: CharListResponce){
         dispatchGroup.leave()
         seriesResponce = res.data?.charList
         detailsdelegate.onSuccessFetchSeries(seriesResponce: seriesResponce)

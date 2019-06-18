@@ -22,43 +22,35 @@ class DetailsViewController: BaseViewController {
     fileprivate var eventsResponce: [Details]?
     fileprivate var seriesResponce: [Details]?
     fileprivate var character: Character?
+    fileprivate var isSelectedBefor = false
     fileprivate var storedOffsets = [Int: CGFloat]()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         makeNavigationTransparent()
         setTableContentInset()
         setUpNavBar()
-        hideBacBtnUntilApiFinished()
-        
     }
-    
     override var preferredStatusBarStyle : UIStatusBarStyle {
         return .lightContent
     }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+
         presenter.detailsdelegate = self
-        callDetailsApi()
         setupTableView()
         adjustTableHeaderHight()
         setUpBackGroundView()
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        character?.charDetails.removeAll()
+        checkIfCallApiOrNot()
     }
     
     // MARK:- Config UI
-    fileprivate func hideBacBtnUntilApiFinished() {
-        navigationItem.hidesBackButton = true
+    fileprivate func hideBackBtnUntilApiFinished() {
+        navigationItem.setHidesBackButton(true, animated:true)
     }
-    fileprivate func ShowBacBtnWhenApiFinished() {
-        navigationItem.hidesBackButton = true
+    fileprivate func ShowBackBtnWhenApiFinished() {
+        navigationItem.setHidesBackButton(false, animated:true)
     }
     fileprivate func setUpNavBar() {
         navigationController?.navigationBar.backgroundColor = .clear
@@ -70,6 +62,7 @@ class DetailsViewController: BaseViewController {
     }
     fileprivate func callDetailsApi(){
         if let charId = character?.id {
+            hideBackBtnUntilApiFinished()
             self.showLoadingIndicator(boxView)
             presenter.fetchComics(limit: 20, offset: 0, charId: charId)
             presenter.fetchStories(limit: 20, offset: 0, charId: charId)
@@ -101,10 +94,23 @@ class DetailsViewController: BaseViewController {
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         bgImage.addSubview(blurEffectView)
     }
+    fileprivate func checkIfCallApiOrNot() {
+        if isSelectedBefor {
+            tableView.reloadData()
+        } else {
+            character?.charDetails.removeAll()
+            callDetailsApi()
+        }
+    }
     
     // MARK:- Setters
-    func setCharacterObj(character: Character?){
+    func setCharacterObj(character: Character?, isSelected: Bool){
         self.character = character
+        self.isSelectedBefor = isSelected
+    }
+    
+    fileprivate func isSelectedCharEqualPreviousChar(charId: Int , previousId: Int) -> Bool {
+        return charId == previousId
     }
     
     
@@ -117,7 +123,6 @@ extension DetailsViewController: DetailsPresenterDelegate {
         if comicsResponce?.count ?? 0 > 0 {
             self.character?.charDetails.append(["Comics": comicsResponce!])
         }
-        print("fetch comics")
     }
     
     func onSuccessFetchStories(storiesResponce: [Details]?) {
@@ -125,7 +130,6 @@ extension DetailsViewController: DetailsPresenterDelegate {
         if storiesResponce?.count ?? 0 > 0 {
             self.character?.charDetails.append(["Stories": storiesResponce!])
         }
-        print("fetch Stories")
     }
     
     func onSuccessFetchEvents(eventsResponce: [Details]?) {
@@ -133,7 +137,6 @@ extension DetailsViewController: DetailsPresenterDelegate {
         if eventsResponce?.count ?? 0 > 0 {
             self.character?.charDetails.append(["Events": eventsResponce!])
         }
-        print("fetch events")
     }
     
     func onSuccessFetchSeries(seriesResponce: [Details]?) {
@@ -141,18 +144,16 @@ extension DetailsViewController: DetailsPresenterDelegate {
         if seriesResponce?.count ?? 0 > 0 {
             self.character?.charDetails.append(["Series": seriesResponce!])
         }
-        print("fetch series")
     }
     
     func onSuccessFetchAll(characterDetail: Character?) {
         navigationItem.hidesBackButton = false
         tableView.reloadData()
         hideLoadingIndicator(boxView)
-        
     }
-  
+    
     func onError() {
-        ShowBacBtnWhenApiFinished()
+        ShowBackBtnWhenApiFinished()
     }
 }
 
@@ -188,7 +189,6 @@ extension DetailsViewController : UITableViewDataSource, UITableViewDelegate  {
             switch indexPath.row {
             case 0:
                 if let cell = tableView.dequeueReusableCell(withIdentifier: "infoTableViewCell") as? infoTableViewCell {
-                    
                     cell.titleLable.text = "NAME"
                     cell.detailsLable.text = character?.name ?? "Not found"
                     return cell
@@ -196,7 +196,7 @@ extension DetailsViewController : UITableViewDataSource, UITableViewDelegate  {
             case 1:
                 if let cell = tableView.dequeueReusableCell(withIdentifier: "infoTableViewCell") as? infoTableViewCell {
                     if character?.description == "" {
-                        cell.isHidden = true
+                        cell.isHidden = true // TODO
                         return cell
                     }
                     cell.titleLable.text = "DESCRIPTION"
@@ -223,11 +223,11 @@ extension DetailsViewController : UITableViewDataSource, UITableViewDelegate  {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return section == 0 ? 0 : 30
-
+        
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 , indexPath.row > 1{
-                return 240
+            return 240
         }
         return tableView.estimatedRowHeight
     }
@@ -262,9 +262,9 @@ extension DetailsViewController : UICollectionViewDelegate, UICollectionViewData
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let key = (character?.charDetails[collectionView.tag - 2].keys.first) ?? ""
+        let key = (character?.charDetails[collectionView.tag - 2].keys.first) ?? "" // TODO
         return (character?.charDetails[collectionView.tag - 2][key]?.count) ?? 0
-
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -272,13 +272,18 @@ extension DetailsViewController : UICollectionViewDelegate, UICollectionViewData
         
         let ArrayObj = character?.charDetails[collectionView.tag - 2].values.first
         let obj = ArrayObj![indexPath.row]
-        
-        let imagPath = obj.thumImage?.fullPath()
-        cell.image.downloadImageByKF(imagePath: imagPath)
-        cell.Namelabel.text = obj.title ?? ""
+        cell.configCollectionDetail(obj: obj)
         return cell
     }
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "ImageSliderViewController") as? ImageSliderViewController {
+            if  let ArrayObj = character?.charDetails[collectionView.tag - 2].values.first {
+                vc.imageSourceArray = ArrayObj
+            }
+            self.navigationController?.present(vc, animated: true, completion: nil)
+        }
+    }
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemsPerRow:CGFloat = 3.5
         let hardCodedPadding:CGFloat = 5

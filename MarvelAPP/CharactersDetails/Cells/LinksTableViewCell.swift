@@ -11,10 +11,4 @@ import UIKit
 class LinksTableViewCell: UITableViewCell {
     @IBOutlet weak var linkLable: UILabel!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-
 }

@@ -10,6 +10,8 @@
 		2E3B0F9D22B2551B00910F05 /* CharSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3B0F9B22B2551B00910F05 /* CharSearchTableViewCell.swift */; };
 		2E3B0F9E22B2551B00910F05 /* CharSearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E3B0F9C22B2551B00910F05 /* CharSearchTableViewCell.xib */; };
 		2E41539D22B7DF79002BA133 /* BasePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E41539C22B7DF79002BA133 /* BasePresenter.swift */; };
+		2E48054622B856B5009FF9B0 /* ImageSliderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E48054522B856B5009FF9B0 /* ImageSliderViewController.swift */; };
+		2E48054822B85701009FF9B0 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E48054722B85701009FF9B0 /* PhotoViewController.swift */; };
 		2EA5E53122B327EE00DBDC40 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5E53022B327EE00DBDC40 /* DetailsViewController.swift */; };
 		2EA5E53322B3D29C00DBDC40 /* DetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5E53222B3D29C00DBDC40 /* DetailsTableViewCell.swift */; };
 		2EA5E53522B3D2DC00DBDC40 /* DetailsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA5E53422B3D2DC00DBDC40 /* DetailsCollectionViewCell.swift */; };
@@ -38,6 +40,8 @@
 		2E3B0F9B22B2551B00910F05 /* CharSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharSearchTableViewCell.swift; sourceTree = "<group>"; };
 		2E3B0F9C22B2551B00910F05 /* CharSearchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharSearchTableViewCell.xib; sourceTree = "<group>"; };
 		2E41539C22B7DF79002BA133 /* BasePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePresenter.swift; sourceTree = "<group>"; };
+		2E48054522B856B5009FF9B0 /* ImageSliderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSliderViewController.swift; sourceTree = "<group>"; };
+		2E48054722B85701009FF9B0 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		2EA5E53022B327EE00DBDC40 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 		2EA5E53222B3D29C00DBDC40 /* DetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsTableViewCell.swift; sourceTree = "<group>"; };
 		2EA5E53422B3D2DC00DBDC40 /* DetailsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -81,6 +85,8 @@
 		2E41539E22B828A1002BA133 /* Bases */ = {
 			isa = PBXGroup;
 			children = (
+				2EA5E54022B5B49700DBDC40 /* BaseViewController.swift */,
+				2E41539C22B7DF79002BA133 /* BasePresenter.swift */,
 			);
 			path = Bases;
 			sourceTree = "<group>";
@@ -91,6 +97,8 @@
 				2EA5E53722B4489300DBDC40 /* Cells */,
 				2EA5E53022B327EE00DBDC40 /* DetailsViewController.swift */,
 				2EA5E53C22B4666700DBDC40 /* DetailsPresenter.swift */,
+				2E48054522B856B5009FF9B0 /* ImageSliderViewController.swift */,
+				2E48054722B85701009FF9B0 /* PhotoViewController.swift */,
 			);
 			path = CharactersDetails;
 			sourceTree = "<group>";
@@ -106,14 +114,14 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		2ED2699622B0477700473770 /* MarvelHome */ = {
+		2ED2699622B0477700473770 /* CharactersHome */ = {
 			isa = PBXGroup;
 			children = (
 				2EEE732B22B03DD200CEF404 /* Cells */,
 				2ED2699722B047FB00473770 /* CharListViewController.swift */,
 				2ED2699E22B13BC700473770 /* CharListPresenter.swift */,
 			);
-			path = MarvelHome;
+			path = CharactersHome;
 			sourceTree = "<group>";
 		};
 		2ED2699922B059F000473770 /* Models */ = {
@@ -146,12 +154,12 @@
 		2EEE731222B0366600CEF404 /* MarvelAPP */ = {
 			isa = PBXGroup;
 			children = (
-				2E41539E22B828A1002BA133 /* Bases */,
-				2ED2699622B0477700473770 /* MarvelHome */,
-				2EA5E53622B447F900DBDC40 /* CharactersDetails */,
-				2ED2699922B059F000473770 /* Models */,
-				2EEE732822B038B000CEF404 /* Helpers */,
 				2EEE732522B0367000CEF404 /* NetworkLayer */,
+				2ED2699922B059F000473770 /* Models */,
+				2E41539E22B828A1002BA133 /* Bases */,
+				2ED2699622B0477700473770 /* CharactersHome */,
+				2EA5E53622B447F900DBDC40 /* CharactersDetails */,
+				2EEE732822B038B000CEF404 /* Helpers */,
 				2EEE731322B0366600CEF404 /* AppDelegate.swift */,
 				2EEE731722B0366600CEF404 /* Main.storyboard */,
 				2EEE731A22B0366700CEF404 /* Assets.xcassets */,
@@ -174,8 +182,6 @@
 			children = (
 				2EEE732922B038C300CEF404 /* MarvelAPIConfig.swift */,
 				2ED269A022B18BFF00473770 /* Extensions.swift */,
-				2EA5E54022B5B49700DBDC40 /* BaseViewController.swift */,
-				2E41539C22B7DF79002BA133 /* BasePresenter.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -292,6 +298,8 @@
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -301,6 +309,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,9 +354,11 @@
 				2E3B0F9D22B2551B00910F05 /* CharSearchTableViewCell.swift in Sources */,
 				2EA5E54122B5B49700DBDC40 /* BaseViewController.swift in Sources */,
 				2EEE732E22B03E1D00CEF404 /* CharListTableViewCell.swift in Sources */,
+				2E48054622B856B5009FF9B0 /* ImageSliderViewController.swift in Sources */,
 				2EA5E53322B3D29C00DBDC40 /* DetailsTableViewCell.swift in Sources */,
 				2EA5E53B22B458C400DBDC40 /* LinksTableViewCell.swift in Sources */,
 				2E41539D22B7DF79002BA133 /* BasePresenter.swift in Sources */,
+				2E48054822B85701009FF9B0 /* PhotoViewController.swift in Sources */,
 				2EEE732A22B038C300CEF404 /* MarvelAPIConfig.swift in Sources */,
 				2EA5E53D22B4666700DBDC40 /* DetailsPresenter.swift in Sources */,
 				2ED269A122B18BFF00473770 /* Extensions.swift in Sources */,

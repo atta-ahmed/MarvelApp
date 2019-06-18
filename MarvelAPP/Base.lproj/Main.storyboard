@@ -274,7 +274,70 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hEP-By-ch9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2684" y="26.53673163418291"/>
+            <point key="canvasLocation" x="1868" y="27"/>
+        </scene>
+        <!--Photo View Controller-->
+        <scene sceneID="nPE-rf-biH">
+            <objects>
+                <viewController storyboardIdentifier="PhotoViewController" id="RsH-jx-3pt" customClass="PhotoViewController" customModule="MarvelAPP" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BeY-qI-cd1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="I5G-YW-rLe">
+                                <rect key="frame" x="20" y="80" width="335" height="487"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v9a-1z-3wR">
+                                <rect key="frame" x="315" y="30" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="DPV-hj-7Sq"/>
+                                    <constraint firstAttribute="width" constant="40" id="Xb5-1b-0Kz"/>
+                                </constraints>
+                                <state key="normal" image="icn-nav-close-white"/>
+                                <connections>
+                                    <action selector="backToRoot" destination="RsH-jx-3pt" eventType="touchUpInside" id="ces-WG-nJW"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="004-8M-Y6D">
+                                <rect key="frame" x="20" y="575" width="335" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.16091117262840271" green="0.1722065806388855" blue="0.18823957443237305" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="4Is-2I-ljB" firstAttribute="trailing" secondItem="I5G-YW-rLe" secondAttribute="trailing" constant="20" id="6Pk-0X-hMC"/>
+                            <constraint firstItem="004-8M-Y6D" firstAttribute="top" secondItem="I5G-YW-rLe" secondAttribute="bottom" constant="8" id="Btx-Ww-Jg3"/>
+                            <constraint firstItem="I5G-YW-rLe" firstAttribute="leading" secondItem="4Is-2I-ljB" secondAttribute="leading" constant="20" id="EcA-7d-ucn"/>
+                            <constraint firstItem="I5G-YW-rLe" firstAttribute="top" secondItem="v9a-1z-3wR" secondAttribute="bottom" constant="10" id="GgW-V2-FPK"/>
+                            <constraint firstItem="I5G-YW-rLe" firstAttribute="top" secondItem="4Is-2I-ljB" secondAttribute="top" constant="60" id="NFP-fk-bmk"/>
+                            <constraint firstItem="4Is-2I-ljB" firstAttribute="bottom" secondItem="I5G-YW-rLe" secondAttribute="bottom" constant="100" id="Ukk-jq-AQc"/>
+                            <constraint firstItem="004-8M-Y6D" firstAttribute="centerX" secondItem="BeY-qI-cd1" secondAttribute="centerX" id="XRG-7w-wfY"/>
+                            <constraint firstItem="004-8M-Y6D" firstAttribute="width" secondItem="I5G-YW-rLe" secondAttribute="width" id="kf9-Mk-Ds0"/>
+                            <constraint firstItem="v9a-1z-3wR" firstAttribute="trailing" secondItem="I5G-YW-rLe" secondAttribute="trailing" id="ur9-tM-zea"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4Is-2I-ljB"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="I5G-YW-rLe" id="jmT-h2-EFx"/>
+                        <outlet property="nameLable" destination="004-8M-Y6D" id="10U-Fh-OTc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7dc-iK-tpK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3409" y="8"/>
+        </scene>
+        <!--Image Slider View Controller-->
+        <scene sceneID="pIt-Dh-s21">
+            <objects>
+                <pageViewController storyboardIdentifier="ImageSliderViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="min" id="aKj-fF-yNf" customClass="ImageSliderViewController" customModule="MarvelAPP" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FhT-BN-cqn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2620" y="27"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="icn-nav-close-white" width="28" height="28"/>
+    </resources>
 </document>

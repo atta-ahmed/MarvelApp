@@ -11,12 +11,14 @@ import UIKit
 class DetailsCollectionViewCell: UICollectionViewCell {
     
     
-    @IBOutlet weak var image: UIImageView!
-    @IBOutlet weak var Namelabel: UILabel!
+    @IBOutlet private weak var image: UIImageView!
+    @IBOutlet private weak var Namelabel: UILabel!
     
-    func configCollectionDetail( obj: Item){
-        Namelabel.text = obj.name
-        image.downloadImageByKF(imagePath: obj.resourceURI)
+    func configCollectionDetail( obj: Details){
+        
+        let imagPath = obj.thumImage?.fullPath()
+        image.downloadImageByKF(imagePath: imagPath)
+        Namelabel.text = obj.title ?? ""
     }
     
 }

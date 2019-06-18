@@ -13,7 +13,6 @@ class DetailsTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLable: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
 
-
 }
 
 
