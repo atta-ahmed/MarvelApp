@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 class CharListPresenter: BasePresenter {
     
@@ -21,13 +22,11 @@ class CharListPresenter: BasePresenter {
                         "offset": offset] as [String : Any]
         ApiHandler.request(url: "characters", success: self.successFetchCharacters, method: .get, paramter: paramter)
     }
-    func successFetchCharacters(res: CharListResponce){
+    
+    fileprivate func successFetchCharacters(res: CharListResponce){
         charResponce = res.data
         charLisDelegate.onSuccessFetchCharacters(charResponce: charResponce)
     }
-    
-    
-    
 }
 
 protocol CharListPresenterDelegate: class {

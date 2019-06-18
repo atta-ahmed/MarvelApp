@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E20886522B94D3D0091306C /* dummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E20886422B94D3D0091306C /* dummy.swift */; };
+		2E20886722B975DE0091306C /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E20886622B975DE0091306C /* RealmConfig.swift */; };
 		2E3B0F9D22B2551B00910F05 /* CharSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3B0F9B22B2551B00910F05 /* CharSearchTableViewCell.swift */; };
 		2E3B0F9E22B2551B00910F05 /* CharSearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E3B0F9C22B2551B00910F05 /* CharSearchTableViewCell.xib */; };
 		2E41539D22B7DF79002BA133 /* BasePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E41539C22B7DF79002BA133 /* BasePresenter.swift */; };
@@ -38,6 +40,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E20886422B94D3D0091306C /* dummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dummy.swift; sourceTree = "<group>"; };
+		2E20886622B975DE0091306C /* RealmConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmConfig.swift; sourceTree = "<group>"; };
 		2E3B0F9B22B2551B00910F05 /* CharSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharSearchTableViewCell.swift; sourceTree = "<group>"; };
 		2E3B0F9C22B2551B00910F05 /* CharSearchTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharSearchTableViewCell.xib; sourceTree = "<group>"; };
 		2E41539C22B7DF79002BA133 /* BasePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasePresenter.swift; sourceTree = "<group>"; };
@@ -158,12 +162,12 @@
 		2EEE731222B0366600CEF404 /* MarvelAPP */ = {
 			isa = PBXGroup;
 			children = (
-				2E48054B22B90BFF009FF9B0 /* CharcterListHome */,
 				2EEE732522B0367000CEF404 /* NetworkLayer */,
 				2ED2699922B059F000473770 /* Models */,
 				2E41539E22B828A1002BA133 /* Bases */,
-				2EA5E53622B447F900DBDC40 /* CharactersDetails */,
 				2EEE732822B038B000CEF404 /* Helpers */,
+				2E48054B22B90BFF009FF9B0 /* CharcterListHome */,
+				2EA5E53622B447F900DBDC40 /* CharactersDetails */,
 				2EEE731322B0366600CEF404 /* AppDelegate.swift */,
 				2EEE731722B0366600CEF404 /* Main.storyboard */,
 				2EEE731A22B0366700CEF404 /* Assets.xcassets */,
@@ -184,8 +188,10 @@
 		2EEE732822B038B000CEF404 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				2E20886422B94D3D0091306C /* dummy.swift */,
 				2EEE732922B038C300CEF404 /* MarvelAPIConfig.swift */,
 				2ED269A022B18BFF00473770 /* Extensions.swift */,
+				2E20886622B975DE0091306C /* RealmConfig.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -361,9 +367,11 @@
 				2E48054622B856B5009FF9B0 /* ImageSliderViewController.swift in Sources */,
 				2EA5E53322B3D29C00DBDC40 /* DetailsTableViewCell.swift in Sources */,
 				2EA5E53B22B458C400DBDC40 /* LinksTableViewCell.swift in Sources */,
+				2E20886722B975DE0091306C /* RealmConfig.swift in Sources */,
 				2E41539D22B7DF79002BA133 /* BasePresenter.swift in Sources */,
 				2E48054822B85701009FF9B0 /* PhotoViewController.swift in Sources */,
 				2EEE732A22B038C300CEF404 /* MarvelAPIConfig.swift in Sources */,
+				2E20886522B94D3D0091306C /* dummy.swift in Sources */,
 				2EA5E53D22B4666700DBDC40 /* DetailsPresenter.swift in Sources */,
 				2ED269A122B18BFF00473770 /* Extensions.swift in Sources */,
 				2E48054A22B90B97009FF9B0 /* RealmModels.swift in Sources */,

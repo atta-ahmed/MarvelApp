@@ -279,6 +279,7 @@ extension DetailsViewController : UICollectionViewDelegate, UICollectionViewData
         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "ImageSliderViewController") as? ImageSliderViewController {
             if  let ArrayObj = character?.charDetails[collectionView.tag - 2].values.first {
                 vc.imageSourceArray = ArrayObj
+                vc.currentIndex = indexPath.row
             }
             self.navigationController?.present(vc, animated: true, completion: nil)
         }

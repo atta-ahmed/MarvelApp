@@ -19,19 +19,21 @@ class ApiHandler {
         Alamofire.request( MarvelAPIConfig.URL + url , method: method, parameters: paramter, encoding: URLEncoding.default , headers: nil).responseJSON { (responseObject) -> Void in
             print( "url ==> ", MarvelAPIConfig.URL + url)
             print(responseObject)
+            
             if responseObject.result.isSuccess  {
-                
+                // TODO fetch error from responce
+                // if  responseObject.response?.statusCode > = 200  , responseObject.response?.statusCode < 300  {
                 let res = JSON(responseObject.result.value!)
-    
                 if let finalRes = T(parameter: res) {
                     success(finalRes)
                 }
                 
-                
             } else if responseObject.result.isFailure {
                 delegate?.handleFailuer()
+                
             } else {
-                delegate?.handleError(error: "201") // fetch error
+                
+                delegate?.handleError(error: "server error") //TODO fetch error from responce
             }
         }
     }
