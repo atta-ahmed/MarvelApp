@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+/*
 import RealmSwift
 
 open class SwiftyJSONRealmObject: Object {
@@ -29,3 +30,4 @@ open class func createList< T>(ofType type: T.Type, fromJson json: JSON) -> List
     }
     
 }
+ */

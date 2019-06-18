@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+/*
 import RealmSwift
 
 
@@ -48,3 +49,4 @@ class RealmLink: Object {
     @objc dynamic var type: String?
     @objc dynamic var url: String?
 }
+*/

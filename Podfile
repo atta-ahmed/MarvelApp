@@ -7,7 +7,7 @@ pod 'Alamofire'
 pod 'SwiftyJSON', '~> 4.0.0'
 pod 'CryptoSwift'
 pod 'Kingfisher'
-pod 'RealmSwift', '~> 3.10.0'
+#pod 'RealmSwift', '~> 3.10.0'
 
 
 end
