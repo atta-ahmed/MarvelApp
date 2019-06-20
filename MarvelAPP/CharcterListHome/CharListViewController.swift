@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CharListViewController: UIViewController, CharListPresenterDelegate {
+class CharListViewController: BaseViewController, CharListPresenterDelegate {
     
     // MARK:- Outlets
     @IBOutlet fileprivate weak var tableView: UITableView!
@@ -41,6 +41,7 @@ class CharListViewController: UIViewController, CharListPresenterDelegate {
         setNavBarButtons()
         presenter.charLisDelegate = self
         searchController.searchBar.delegate = self
+        showLoadingIndicator(boxView)
         presenter.fetchCharacters(limit: 20, count: 10, offset: 0)
     }
     
@@ -76,6 +77,7 @@ class CharListViewController: UIViewController, CharListPresenterDelegate {
     // MARK:- Helpers
     func onSuccessFetchCharacters(charResponce: CharResponce?) {
         self.charResponce = charResponce
+        hideLoadingIndicator(boxView)
         spinner.stopAnimating()
         configTableView()
     }
